@@ -76,6 +76,14 @@
 		padding-bottom: 0.5rem;
 	}
 
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		.project {
+			width: 100%;
+			margin-bottom: 6rem;
+		}
+	}
+
 	.project-info {
 		display: flex;
 		justify-content: space-between;

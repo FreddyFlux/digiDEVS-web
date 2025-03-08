@@ -118,7 +118,7 @@
 
 <style>
 	section {
-		padding-bottom: 14rem;
+		padding: 7rem 0 7rem 0;
 	}
 
 	.form-container {

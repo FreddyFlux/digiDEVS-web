@@ -7,7 +7,7 @@
 	let { skills }: SkillsSectionProps = $props();
 </script>
 
-<section class="mt-l">
+<section class="mt-l mb-l">
 	<SectionHeadline sectionName="skills">Skills</SectionHeadline>
 	<div class="wrapper default-margin">
 		<div class="skills-container mt-m">

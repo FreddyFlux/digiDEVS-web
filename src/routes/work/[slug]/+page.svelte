@@ -22,7 +22,7 @@
 	<h4>{company}</h4>
 	<div class="underscore"></div>
 	<h2 class="mb-s">{name}</h2>
-	<img src={projectImageUrl} alt="" class="project-image" />
+	<img src={projectImageUrl} alt={`Picture of work done for ${company}`} class="project-image" />
 	<div class="project-container mt-m">
 		<div class="meta-data">
 			<div class="meta-data-date">

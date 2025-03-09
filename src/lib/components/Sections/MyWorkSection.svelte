@@ -92,6 +92,7 @@
 	}
 
 	.btn-to-article {
+		height: 4rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;

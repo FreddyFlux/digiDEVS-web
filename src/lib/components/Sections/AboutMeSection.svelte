@@ -33,7 +33,7 @@
 	<SectionHeadline sectionName={'about-me'}>digiDEVS</SectionHeadline>
 	<div class="about-container default-margin mt-m">
 		<div class="image-container">
-			<img src={image} alt="" class="image" />
+			<img src={image} alt="picture of Fredrik" class="image" />
 		</div>
 		<div class="text">
 			<p>

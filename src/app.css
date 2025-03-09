@@ -33,7 +33,7 @@ body {
 	/* 1200px */
 	html,
 	body {
-		font-size: 47.5%;
+		font-size: 55.5%;
 	}
 }
 
@@ -41,12 +41,20 @@ body {
 	/* 900px */
 	html,
 	body {
-		font-size: 42.5%;
+		font-size: 50%;
 	}
 }
 
 @media screen and (max-width: 37.5em) {
 	/* 600px */
+	html,
+	body {
+		font-size: 45%;
+	}
+}
+
+@media screen and (max-width: 25em) {
+	/* 400px */
 	html,
 	body {
 		font-size: 37.5%;
@@ -125,7 +133,7 @@ h4 {
 }
 p,
 li {
-	font-size: 1.6rem;
+	font-size: 1.8rem;
 	line-height: 1.4;
 }
 
@@ -154,30 +162,6 @@ p {
 	p,
 	li {
 		font-size: 1.6rem;
-	}
-}
-
-@media screen and (max-width: 56.25em) {
-	/* 900px */
-	html,
-	body {
-		font-size: 42.5%;
-	}
-}
-
-@media screen and (max-width: 37.5em) {
-	/* 600px */
-	html,
-	body {
-		font-size: 37.5%;
-	}
-}
-
-@media screen and (min-width: 112.5em) {
-	/* 1800px */
-	html,
-	body {
-		font-size: 67.5%;
 	}
 }
 

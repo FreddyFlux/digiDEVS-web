@@ -19,12 +19,12 @@
 </script>
 
 <main class="default-margin work-page">
-	<h4>{company}</h4>
-	<div class="underscore"></div>
+	<h4 class="mt-m">{company}</h4>
+	<div class="underscore mb-s"></div>
 	<h2 class="mb-s">{name}</h2>
 	<img src={projectImageUrl} alt={`Picture of work done for ${company}`} class="project-image" />
 	<div class="project-container mt-m">
-		<div class="meta-data">
+		<div class="meta-data mt-m">
 			<div class="meta-data-date">
 				<h3 class="semi-bold">Date</h3>
 				<p>{dateAccomplished.slice(0, 7)}</p>
@@ -103,5 +103,17 @@
 		.meta-data-tech-stack {
 			margin-top: 0;
 		}
+	}
+
+	.project-text p {
+		margin-bottom: 2rem;
+	}
+
+	.project-text h2 {
+		margin-bottom: 3rem;
+	}
+
+	.project-text h4 {
+		margin-bottom: 1rem;
 	}
 </style>

@@ -9,7 +9,7 @@
 	let nav;
 
 	function goToContactForm() {
-		goto('#contact-form');
+		goto('https://www.digidevs.no#contact-form');
 	}
 
 	onMount(() => {
@@ -50,8 +50,8 @@
 		</a>
 	</div>
 	<div class="menu">
-		<a href="#about">om digiDEVS</a>
-		<a href="#my-work">Prosjekter</a>
+		<a href="https://www.digidevs.no#about">om digiDEVS</a>
+		<a href="https://www.digidevs.no#my-work">Prosjekter</a>
 		<Button className="nav-bar" onclick={goToContactForm}>Kontakt</Button>
 	</div>
 </nav>
@@ -69,6 +69,13 @@
 		background: transparent;
 		z-index: 1000;
 		transition: transform 0.3s ease-in-out;
+	}
+
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		.navigation {
+			padding: 1rem 2rem;
+		}
 	}
 
 	.navigation.scroll-down {
@@ -89,6 +96,14 @@
 	@media screen and (max-width: 56.25em) {
 		.menu {
 			gap: 2rem;
+			font-size: 2.4rem;
+		}
+	}
+
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		.menu {
+			gap: 2rem;
 			font-size: 1.8rem;
 		}
 	}
@@ -104,7 +119,14 @@
 
 	@media screen and (max-width: 56.25em) {
 		.logo {
-			max-width: 15rem;
+			max-width: 20rem;
+		}
+	}
+
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		.logo {
+			max-width: 13rem;
 		}
 	}
 

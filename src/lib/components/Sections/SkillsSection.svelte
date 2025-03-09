@@ -34,8 +34,43 @@
 		column-gap: 1rem;
 	}
 
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		.skills-container {
+			width: 70%;
+		}
+	}
+
+	@media screen and (max-width: 31.25em) {
+		/* 500px */
+		.skills-container {
+			width: 80%;
+		}
+	}
+
+	@media screen and (max-width: 25em) {
+		/* 400px */
+		.skills-container {
+			width: 100%;
+		}
+	}
+
 	i {
 		font-size: 8rem;
 		color: black;
+	}
+
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		i {
+			font-size: 7rem;
+		}
+	}
+
+	@media screen and (max-width: 31.25em) {
+		/* 500px */
+		i {
+			font-size: 6rem;
+		}
 	}
 </style>

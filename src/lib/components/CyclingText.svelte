@@ -64,6 +64,20 @@
 		letter-spacing: 2px;
 	}
 
+	@media screen and (max-width: 37.5em) {
+		/* 600px */
+		h1 {
+			font-size: 5rem;
+		}
+	}
+
+	@media screen and (max-width: 25em) {
+		/* 400px */
+		h1 {
+			font-size: 4rem;
+		}
+	}
+
 	.text-container {
 		display: flex;
 	}
@@ -96,6 +110,13 @@
 	@media screen and (max-width: 56.25em) {
 		.dynamic-text {
 			width: 100%;
+		}
+	}
+
+	@media screen and (max-width: 25em) {
+		/* 400px */
+		.dynamic-text {
+			margin-left: 10rem;
 		}
 	}
 

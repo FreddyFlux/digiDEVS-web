@@ -95,10 +95,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 40px;
+		font-size: 4rem;
 		border: 1px solid black;
 		border-radius: 40px;
-		padding: 0px 24px;
+		padding: 0 2rem;
 	}
 
 	.company {

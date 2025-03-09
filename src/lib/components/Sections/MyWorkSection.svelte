@@ -92,7 +92,9 @@
 	}
 
 	.btn-to-article {
-		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		font-size: 40px;
 		border: 1px solid black;
 		border-radius: 40px;

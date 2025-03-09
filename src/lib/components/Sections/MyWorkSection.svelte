@@ -47,6 +47,11 @@
 	.main-project {
 		padding: 0 0 0.5rem 0;
 		border-radius: 20px;
+		transition: transform 0.2s ease;
+	}
+
+	.main-project:hover {
+		transform: translateY(8px) scale(0.98);
 	}
 
 	img {
@@ -74,6 +79,11 @@
 		width: 48%;
 		border-radius: 20px;
 		padding-bottom: 0.5rem;
+		transition: transform 0.2s ease;
+	}
+
+	.project:hover {
+		transform: translateY(6px) scale(0.97);
 	}
 
 	@media screen and (max-width: 37.5em) {

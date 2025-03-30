@@ -1,15 +1,5 @@
-import { createClient, type ClientConfig } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-
-const config: ClientConfig = {
-	projectId: 'hogfexa0',
-	dataset: 'production',
-	apiVersion: '2024-01-01',
-	useCdn: false
-};
-
-const sanityClient = createClient(config);
-export default sanityClient;
+import sanityClient from '$lib/utils/sanityHandler';
 
 export function processProjectEntries(rawProjects: SanityProject[]) {
 	const builder = imageUrlBuilder(sanityClient);

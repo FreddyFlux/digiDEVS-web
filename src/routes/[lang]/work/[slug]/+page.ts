@@ -1,4 +1,5 @@
-import sanityClient, { processProjectEntries } from '$lib/utils/projectSanity';
+import sanityClient from '$lib/utils/sanityHandler';
+import { processProjectEntries } from '$lib/utils/projectSanity';
 import { processNavbarEntries } from '$lib/utils/navbarSanity';
 
 import { error } from '@sveltejs/kit';

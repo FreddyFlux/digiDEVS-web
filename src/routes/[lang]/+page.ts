@@ -1,8 +1,10 @@
-import sanityClient, { processNavbarEntries } from '$lib/utils/navbarSanity';
+import sanityClient from '$lib/utils/sanityHandler';
+import { processNavbarEntries } from '$lib/utils/navbarSanity';
 import { processAboutEntries } from '$lib/utils/aboutSanity';
 import { processProjectEntries } from '$lib/utils/projectSanity';
 import { processHeroText } from '$lib/utils/heroSanity';
 import { processContactEntries } from '$lib/utils/contactSanity';
+
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 

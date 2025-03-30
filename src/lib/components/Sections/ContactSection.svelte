@@ -1,6 +1,27 @@
 <script lang="ts">
 	import { Button, SectionHeadline } from '$components';
 
+	interface ContactSectionProps {
+		data: {
+			contactSection: ProcessedContact;
+		};
+	}
+
+	let { data }: ContactSectionProps = $props();
+	const {
+		contactHeadline,
+		contactTitle,
+		contactText,
+		namePlaceholder,
+		emailPlaceholder,
+		messagePlaceholder,
+		sentMessage,
+		loadingMessage,
+		errorMessage,
+		contactLinkText,
+		language
+	} = data.contactSection;
+
 	let contactName = $state('');
 	let contactMail = $state('');
 	let informationAboutProject = $state('');
@@ -8,8 +29,6 @@
 	let isEmailSent = $state(false);
 	let showErrorMessage = $state(false);
 	let isLoading = $state(false);
-
-	$inspect(isEmailSent);
 
 	async function onSubmit(event: Event) {
 		event.preventDefault();
@@ -53,64 +72,51 @@
 	});
 </script>
 
-<section class="mt-l">
-	<SectionHeadline sectionName="contact-form">La oss ta en prat</SectionHeadline>
+<section class="mt-l" id="contact">
+	<SectionHeadline sectionName="contact-form">{contactHeadline}</SectionHeadline>
 	<div class="form-container default-margin mt-m">
-		<div class="form-text mb-m">
-			<h3 class="bold mb-s">Fortell meg om prosjektet ditt</h3>
-			<p>
-				<!-- I'm always excited to hear about new and innovative ideas! Whether you're in the early
-				stages of planning or have a well-defined project, I'm here to help bring your vision to
-				life. Feel free to drop me a message with some details about your project, and let's start a
-				conversation about how we can work together. I look forward to connecting with you and
-				discussing the possibilities. Talk to you soon! -->
-				Det er alltid spennende å høre om nye og innovative ideer! Uansett om du er i tidlig fase av
-				planlegging eller har et tydelig definert prosjekt, er jeg her for å hjelpe deg med å bringe
-				din idé til liv.
-			</p>
-			<p>
-				Skriv gjerne inn noen detaljer om ditt prosjekt, så starter vi en dialog om hvordan vi kan
-				arbeide sammen. Jeg ser frem til å bli kjent med deg og diskutere mulighetene. Høres snart!
-			</p>
-		</div>
 		{#if isEmailSent}
 			<div class="spinner-container">
-				<h3>Takk for at du tar kontakt med meg. Jeg svarer vanligvis innen 48 timer.</h3>
+				<h3>{sentMessage}</h3>
 			</div>
 		{:else if isLoading}
 			<div class="spinner-container">
 				<div class="spinner"></div>
-				<h3>Sender kontaktbeskjeden</h3>
+				<h3>{loadingMessage}</h3>
 			</div>
 		{:else if showErrorMessage}
 			<h3>
-				Det ser ut til at vi har problemer med vår server. Send meg en e-post til <a
-					href="mailto:fredrik@digidevs.no"
-					class="link">fredrik@digidevs.no</a
-				>
+				{errorMessage} <a href="mailto:fredrik@digidevs.no" class="link">fredrik@digidevs.no</a>
 			</h3>
 		{:else}
+			<div class="form-text mb-m">
+				<h3 class="bold mb-s">{contactTitle}</h3>
+				{#each contactText as text}
+					<p>{text}</p>
+				{/each}
+			</div>
+
 			<form>
 				<input
 					type="text"
 					class="text-input mb-m"
 					class:input-error={isFormInvalid && !Boolean(contactName.length)}
-					placeholder="Ditt navn"
+					placeholder={namePlaceholder}
 					bind:value={contactName}
 				/>
 				<input
 					type="text"
 					class="text-input mb-m"
 					class:input-error={isFormInvalid && !Boolean(contactMail.length)}
-					placeholder="Din Email"
+					placeholder={emailPlaceholder}
 					bind:value={contactMail}
 				/>
 				<textarea
-					placeholder="Fortell meg hva du lurer på."
+					placeholder={messagePlaceholder}
 					class:input-error={isFormInvalid && !Boolean(informationAboutProject.length)}
 					bind:value={informationAboutProject}
 				></textarea>
-				<Button onclick={onSubmit}>Send</Button>
+				<Button onclick={onSubmit}>{contactLinkText}</Button>
 			</form>
 		{/if}
 	</div>

@@ -1,59 +1,67 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	interface HeroSectionProps {
+		data: {
+			heroText: ProcessedHeroText;
+		};
+	}
 
-	const words = [' tilpasninger', 'websider', ' applikasjoner', ' systemer', ' automasjoner'];
-	let currentWordIndex = 0;
-	let currentCharIndex = 0;
-	let isDeleting = false;
-	let displayText = '';
-	const typingSpeed = 155; // Speed for typing and deleting
-	const pauseDuration = 1200; // How long to pause when word is complete
-	const pauseDurationBetweenWords = 800; // How long to pause between words
+	let { data }: HeroSectionProps = $props();
 
-	function typeEffect(): void {
-		const currentWord = words[currentWordIndex];
+	let currentWordIndex = $state(0);
+	let currentText = $state('');
+	let isDeleting = $state(false);
+	let isPaused = $state(false);
+	let isWordGap = $state(false);
+	let typingSpeed = 200; // milliseconds per character
+	let pauseDuration = 1200; // pause when word is complete
+	let wordGapDuration = 800; // pause between words
 
-		if (isDeleting) {
-			// Delete characters
-			if (currentCharIndex > 0) {
-				displayText = currentWord.substring(0, currentCharIndex - 1);
-				currentCharIndex--;
-				setTimeout(typeEffect, typingSpeed);
-			} else {
-				// When deleting is complete, move to next word
+	const { staticText, dynamicText } = data.heroText;
+
+	function typeEffect() {
+		const currentWord = dynamicText[currentWordIndex];
+
+		if (isWordGap) {
+			// Do nothing during word gap
+			return;
+		} else if (isDeleting) {
+			currentText = currentWord.substring(0, currentText.length - 1);
+			if (currentText === '') {
 				isDeleting = false;
-				currentWordIndex = (currentWordIndex + 1) % words.length;
+				isWordGap = true;
+				// After word gap duration, move to next word
 				setTimeout(() => {
-					typeEffect();
-				}, pauseDurationBetweenWords);
+					isWordGap = false;
+					currentWordIndex = (currentWordIndex + 1) % dynamicText.length;
+				}, wordGapDuration);
 			}
+		} else if (isPaused) {
+			// Do nothing during pause
+			return;
 		} else {
-			// Type characters
-			if (currentCharIndex < currentWord.length) {
-				displayText = currentWord.substring(0, currentCharIndex + 1);
-				currentCharIndex++;
-				setTimeout(typeEffect, typingSpeed);
-			} else {
-				// Word is complete, pause before deleting
+			currentText = currentWord.substring(0, currentText.length + 1);
+			if (currentText === currentWord) {
+				isPaused = true;
+				// After pause duration, start deleting
 				setTimeout(() => {
+					isPaused = false;
 					isDeleting = true;
-					typeEffect();
 				}, pauseDuration);
 			}
 		}
 	}
 
-	onMount(() => {
-		typeEffect();
+	// Start the typing effect when the component mounts
+	$effect(() => {
+		const interval = setInterval(typeEffect, typingSpeed);
+		return () => clearInterval(interval);
 	});
 </script>
 
-<div class="text-container">
+<div class="cycling-text-container">
 	<h1 class="cycling-text">
-		<span class="static-text mb-m">Skreddersydde</span>
-	</h1>
-	<h1 class="cycling-text">
-		<span class="dynamic-text">{displayText}<span class="cursor"></span> </span>
+		<span class="static-text">{staticText}</span>
+		<span class="dynamic-text">{currentText}</span>
 	</h1>
 </div>
 

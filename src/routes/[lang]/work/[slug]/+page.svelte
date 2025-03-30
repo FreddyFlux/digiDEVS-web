@@ -1,11 +1,19 @@
 <script lang="ts">
-	import { Button } from '$components';
+	import { Button, Navbar } from '$components';
 	import { goto } from '$app/navigation';
 
-	let { data } = $props();
+	interface Props {
+		data: {
+			project: ProcessedProject[];
+			nav: ProcessedNavbar;
+		};
+		lang: string;
+	}
+
+	let { data, lang }: Props = $props();
 
 	const { company, name, dateAccomplished, stack, projectImageUrl, content, urlLink } =
-		data.project;
+		data.project[0];
 
 	function getTagFromStyle(style: ProcessedTextContent['style']): string {
 		if (style === 'normal') {
@@ -14,10 +22,9 @@
 			return style;
 		}
 	}
-
-	$inspect(urlLink);
 </script>
 
+<Navbar {data} {lang} />
 <main class="default-margin work-page">
 	<h4 class="mt-m">{company}</h4>
 	<div class="underscore mb-s"></div>

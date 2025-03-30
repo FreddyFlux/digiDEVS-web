@@ -22,6 +22,7 @@ type SanityProject = {
 	content: Array<RawTextContent | RawImageContent>;
 	stack: Array<string>;
 	urlLink: string;
+	language: string;
 };
 
 interface RawTextContent {
@@ -64,6 +65,7 @@ interface ProcessedProject {
 	slug: string;
 	content: Array<ProcessedTextContent | ProcessedImageContent>;
 	urlLink: string;
+	language: string;
 }
 
 interface ProcessedTextContent {
@@ -75,10 +77,4 @@ interface ProcessedTextContent {
 interface ProcessedImageContent {
 	type: 'image';
 	url: string;
-}
-
-interface Skill {
-	name: string;
-	iconClass: string;
-	_key: string;
 }

@@ -1,4 +1,12 @@
 <script lang="ts">
+	interface HeroSectionProps {
+		data: {
+			heroText: ProcessedHeroText;
+		};
+	}
+
+	const { data } = $props();
+
 	import { CyclingText } from '$components';
 	import { onMount } from 'svelte';
 
@@ -6,7 +14,9 @@
 	let lastScrollY = 0;
 	let ticking = false;
 
-	$: if (backgroundContainer) {
+	function updateBackgroundStyles() {
+		if (!backgroundContainer) return;
+
 		const scrollY = window.scrollY;
 
 		// Snap to bottom when scrolling down past 100vh
@@ -26,12 +36,18 @@
 		lastScrollY = scrollY;
 	}
 
+	// Use $effect for side effects that depend on backgroundContainer
+	$effect(() => {
+		if (backgroundContainer) {
+			updateBackgroundStyles();
+		}
+	});
+
 	onMount(() => {
 		const handleScroll = () => {
 			if (!ticking) {
 				window.requestAnimationFrame(() => {
-					// This will trigger the reactive statement above
-					backgroundContainer = backgroundContainer;
+					updateBackgroundStyles();
 					ticking = false;
 				});
 				ticking = true;
@@ -50,7 +66,7 @@
 	<div class="gradient-sphere"></div>
 	<div class="blob-sphere"></div>
 	<div class="text-container">
-		<CyclingText />
+		<CyclingText {data} />
 	</div>
 </div>
 

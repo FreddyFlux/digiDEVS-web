@@ -1,3 +1,13 @@
+<script lang="ts">
+	interface FooterProps {
+		data: {
+			nav: ProcessedNavbar;
+		};
+	}
+
+	const { data }: FooterProps = $props();
+</script>
+
 <footer class="footer">
 	<div class="footer-container">
 		<h3 class="semi-bold mb-xs">digiDEVS</h3>
@@ -6,7 +16,7 @@
 			<a href="https://linkedin.com" target="_blank" class="footer-link">LinkedIn</a>
 			<a href="https://twitter.com" target="_blank" class="footer-link">Twitter</a>
 		</div>
-		<p>&copy; digiDEVS. All rights reserved.</p>
+		<p>&copy; digiDEVS. {data.nav.copyrightText}</p>
 	</div>
 </footer>
 

@@ -7,6 +7,16 @@
 		goto('/#contact-form');
 	}
 
+	interface AboutMeSectionProps {
+		data: {
+			aboutSection: ProcessedAboutSection;
+		};
+	}
+
+	const { data }: AboutMeSectionProps = $props();
+
+	const { aboutText, linkText } = data.aboutSection;
+
 	let observer: IntersectionObserver | null = null;
 
 	onMount(() => {
@@ -36,25 +46,12 @@
 			<img src={image} alt="picture of Fredrik" class="image" />
 		</div>
 		<div class="text">
-			<p>
-				Hei, jeg er Fredrik, drivkraften bak vårt lille frilans byrå digiDEVS: som spesialiserer seg
-				på webdesign, applikasjonsutvikling, automasjon og prosjektledelse.
-			</p>
-			<p>
-				Min erfaring kommer fra jobb innenfor IT, digital markedsføring, optimalisering av
-				hjemmesider og system. Jeg har i tillegg selvlært meg selv gjennom flere år til å bli en
-				brukbar programmerer innenfor web og applikasjonsutvikling.
-			</p>
-			<p>
-				Med familie og bosted i Split, Kroatia har vi dannet et nettverk av profesjonelle utviklere
-				som er med å jobber frilans på prosjekter for Norske kunder.
-			</p>
-			<p>
-				Gjennom vårt engasjement og forbindelser kan vi levere forutsigbare og helhetlige løsninger
-				som er skreddersydd for å dekke alt fra enkle behov til å støtte opp om kompliserte
-				løsninger.
-			</p>
-			<Button className="mt-m" {onclick}>La oss snakke om ditt prosjekt</Button>
+			{#each aboutText as text}
+				<p>{text}</p>
+			{/each}
+			<Button className="mt-m" {onclick}>
+				{linkText}
+			</Button>
 		</div>
 	</div>
 </section>

@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { SectionHeadline } from '$components';
 	interface SkillsSectionProps {
-		skills: Skill[];
+		data: {
+			skills: Skill[];
+		};
 	}
 
-	let { skills }: SkillsSectionProps = $props();
+	let { data }: SkillsSectionProps = $props();
+	const { skills } = data;
 </script>
 
 <section class="mt-l mb-l">

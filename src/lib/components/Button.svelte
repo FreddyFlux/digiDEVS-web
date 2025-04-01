@@ -25,14 +25,19 @@
 	}
 
 	.nav-bar {
-		padding: 1rem 2.4rem;
-		font-size: 2rem;
+		padding: 0.8rem 1.4rem;
+		font-size: 2.5rem;
+	}
+
+	@media screen and (max-width: 56.25em) {
+		.nav-bar {
+			font-size: 2rem;
+		}
 	}
 
 	@media screen and (max-width: 37.5em) {
 		/* 600px */
 		.nav-bar {
-			padding: 0.5rem 1rem;
 			font-size: 1.6rem;
 		}
 	}

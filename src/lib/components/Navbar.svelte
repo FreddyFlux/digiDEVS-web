@@ -146,9 +146,10 @@
 	<LangButtons {setLanguage} />
 	<div class="menu">
 		{#each navbar as item}
-			<a href={`/${language}/${item.link}`}>{item.name}</a>
+			<a href={`/${language}/${item.link}`} class="nav-bar-item">{item.name}</a>
 		{/each}
 		<Button
+			className="nav-bar"
 			onclick={() => {
 				window.location.href = `/${language}#contact`;
 			}}>contact</Button
@@ -209,6 +210,23 @@
 		text-decoration: none;
 		color: #000;
 		font-weight: 600;
+	}
+
+	.menu a:nth-child(1) {
+		border-right: 1px solid black;
+		padding-right: 1.8rem;
+	}
+
+	@media screen and (max-width: 56.25em) {
+		.menu a:nth-child(1) {
+			padding-right: 1.2rem;
+		}
+	}
+
+	@media screen and (max-width: 37.5em) {
+		.menu a:nth-child(1) {
+			padding-right: 0.8rem;
+		}
 	}
 
 	.logo {

@@ -92,6 +92,7 @@
 		transition:
 			transform 0.5s ease-out,
 			opacity 0.4s ease-in-out;
+		max-width: 100vw;
 	}
 
 	.background-container.snap {
@@ -136,13 +137,13 @@
 			transform: translate(0, 0) scale(1);
 		}
 		25% {
-			transform: translate(10%, 10%) scale(1.2);
+			transform: translate(5%, 5%) scale(1.2);
 		}
 		50% {
-			transform: translate(0, 20%) scale(1);
+			transform: translate(0, 10%) scale(1);
 		}
 		75% {
-			transform: translate(-10%, 10%) scale(0.8);
+			transform: translate(-5%, 5%) scale(0.8);
 		}
 		100% {
 			transform: translate(0, 0) scale(1);
@@ -154,13 +155,13 @@
 			transform: translate(0, 0) scale(1);
 		}
 		25% {
-			transform: translate(-15%, -15%) scale(1.3);
+			transform: translate(-7%, -7%) scale(1.3);
 		}
 		50% {
-			transform: translate(0, -20%) scale(0.9);
+			transform: translate(0, -10%) scale(0.9);
 		}
 		75% {
-			transform: translate(15%, -15%) scale(1.1);
+			transform: translate(7%, -7%) scale(1.1);
 		}
 		100% {
 			transform: translate(0, 0) scale(1);

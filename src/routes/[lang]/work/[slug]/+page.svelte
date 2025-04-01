@@ -4,15 +4,12 @@
 	import { onMount } from 'svelte';
 	import gsap from 'gsap';
 
-	interface Props {
-		data: {
-			project: ProcessedProject[];
-			nav: ProcessedNavbar;
-		};
-		lang: string;
-	}
-
-	let { data, lang }: Props = $props();
+	// Let's go back to the original way until we have better documentation for Svelte 5 props rune
+	export let data: {
+		project: ProcessedProject[];
+		nav: ProcessedNavbar;
+	};
+	export let lang: string;
 
 	const { company, name, dateAccomplished, stack, projectImageUrl, content, urlLink } =
 		data.project[0];
@@ -25,7 +22,8 @@
 		}
 	}
 
-	// References to elements we want to animate
+	// References to elements we want to animate - using standard let declarations for now
+	// We can migrate to $state when better documentation is available
 	let companyEl: HTMLElement;
 	let nameEl: HTMLElement;
 	let projectImageEl: HTMLImageElement;
@@ -45,13 +43,13 @@
 				dateHeadingEl,
 				dateValueEl,
 				techStackHeadingEl,
-				skillsListEl.querySelectorAll('li')
-			],
+				skillsListEl?.querySelectorAll('li')
+			].filter(Boolean),
 			{ autoAlpha: 0, y: 20 }
 		);
 
 		// Hide content blocks
-		gsap.set(contentBlocksEl, { autoAlpha: 0, y: 20 });
+		gsap.set(contentBlocksEl.filter(Boolean), { autoAlpha: 0, y: 20 });
 
 		// Create timeline for sequential animations
 		const tl = gsap.timeline({ defaults: { duration: 0.7, ease: 'power3.out' } });
@@ -65,7 +63,7 @@
 			.to(dateValueEl, { autoAlpha: 1, y: 0 }, '-=0.4')
 			// Animate content blocks with overlap
 			.to(
-				contentBlocksEl,
+				contentBlocksEl.filter(Boolean),
 				{
 					autoAlpha: 1,
 					y: 0,
@@ -75,7 +73,7 @@
 			)
 			.to(techStackHeadingEl, { autoAlpha: 1, y: 0 }, '-=2') // Changed from +=0.4 to -=0.1 to start sooner
 			.to(
-				skillsListEl.querySelectorAll('li'),
+				skillsListEl?.querySelectorAll('li'),
 				{
 					autoAlpha: 1,
 					y: 0,

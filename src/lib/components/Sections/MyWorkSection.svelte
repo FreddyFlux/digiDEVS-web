@@ -14,10 +14,10 @@
 	const mainProject = projects[0];
 	const otherProjects = projects.slice(1);
 
-	let sectionEl: HTMLElement;
-	let headlineEl: HTMLElement;
-	let mainProjectEl: HTMLElement;
-	let projectEls: HTMLElement[] = [];
+	let sectionEl = $state<HTMLElement | null>(null);
+	let headlineEl = $state<HTMLElement | null>(null);
+	let mainProjectEl = $state<HTMLElement | null>(null);
+	let projectEls = $state<HTMLElement[]>([]);
 
 	// Function to create shake animation on hover
 	function createShakeAnimation(element: HTMLElement) {

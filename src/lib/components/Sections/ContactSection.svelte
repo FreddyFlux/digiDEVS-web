@@ -33,13 +33,13 @@
 	let showErrorMessage = $state(false);
 	let isLoading = $state(false);
 
-	let sectionEl: HTMLElement;
-	let headlineEl: HTMLElement;
-	let titleEl: HTMLElement;
-	let textEls: HTMLElement[] = [];
-	let inputEls: HTMLElement[] = [];
-	let textareaEl: HTMLElement;
-	let buttonEl: HTMLElement;
+	let sectionEl = $state<HTMLElement | null>(null);
+	let headlineEl = $state<HTMLElement | null>(null);
+	let titleEl = $state<HTMLElement | null>(null);
+	let textEls = $state<HTMLElement[]>([]);
+	let inputEls = $state<HTMLElement[]>([]);
+	let textareaEl = $state<HTMLElement | null>(null);
+	let buttonEl = $state<HTMLElement | null>(null);
 
 	async function onSubmit(event: Event) {
 		event.preventDefault();

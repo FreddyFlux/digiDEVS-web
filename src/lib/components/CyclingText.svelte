@@ -59,9 +59,9 @@
 </script>
 
 <div class="cycling-text-container">
-	<h1 class="cycling-text">
+	<h1 class="cycling-text text-container">
 		<span class="static-text">{staticText}</span>
-		<span class="dynamic-text">{currentText}</span>
+		<span class="dynamic-text">`{currentText}`</span>
 	</h1>
 </div>
 
@@ -94,14 +94,51 @@
 	@media screen and (max-width: 56.25em) {
 		.text-container {
 			flex-direction: column;
+			gap: 5.5rem;
+			align-items: flex-start;
+			text-align: left;
+			padding: 0 1rem;
+		}
+
+		.cycling-text {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 2rem;
+			width: 100%;
+		}
+
+		.static-text,
+		.dynamic-text {
+			width: 100%;
+			white-space: nowrap;
+			text-align: left;
+			display: block;
+			position: relative;
+		}
+
+		.static-text {
+			margin-bottom: 0.5rem;
+		}
+
+		.dynamic-text {
+			margin-left: 0;
+			margin-top: 0.8rem;
+			min-width: unset;
+		}
+
+		.dynamic-text::before {
+			content: '';
+			display: inline-block;
+			width: -2em;
 		}
 	}
 
 	.cycling-text {
 		display: flex;
-		align-items: bottom;
+		align-items: flex-end;
 		justify-content: center;
 		gap: 0.5rem;
+		text-align: center;
 	}
 
 	.static-text {
@@ -110,40 +147,21 @@
 
 	.dynamic-text {
 		color: inherit;
-		margin-left: 2rem;
-		min-width: 48rem;
+		margin-left: 1rem;
+		width: auto;
+		min-width: min(48rem, 70vw);
 		display: inline-block;
-	}
-
-	@media screen and (max-width: 56.25em) {
-		.dynamic-text {
-			width: 100%;
-		}
+		position: relative;
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	@media screen and (max-width: 25em) {
 		/* 400px */
 		.dynamic-text {
-			margin-left: 10rem;
-		}
-	}
-
-	.cursor {
-		display: inline-block;
-		width: 2px;
-		height: 1em;
-		background-color: currentColor;
-		margin-left: 2px;
-		animation: blink 0.7s infinite;
-	}
-
-	@keyframes blink {
-		0%,
-		100% {
-			opacity: 1;
-		}
-		50% {
-			opacity: 0;
+			margin-left: 0;
 		}
 	}
 </style>

@@ -162,44 +162,47 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem 5rem;
+		padding: 1rem 3rem;
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
+		width: 100%;
+		box-sizing: border-box;
 		background-color: rgba(255, 255, 255, 0.9);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
 		z-index: 1000;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		overflow-x: hidden;
 	}
 
 	@media screen and (max-width: 37.5em) {
 		/* 600px */
 		.navigation {
-			padding: 1rem 2rem;
+			padding: 1rem 1.5rem;
 		}
 	}
 
 	.menu {
 		display: flex;
 		align-items: center;
-		gap: 4rem;
-		font-size: 3rem;
+		gap: 3rem;
+		font-size: 2.5rem;
 	}
 
 	@media screen and (max-width: 56.25em) {
 		.menu {
-			gap: 2rem;
-			font-size: 2.4rem;
+			gap: 1.5rem;
+			font-size: 2rem;
 		}
 	}
 
 	@media screen and (max-width: 37.5em) {
 		/* 600px */
 		.menu {
-			gap: 2rem;
-			font-size: 1.8rem;
+			gap: 1.2rem;
+			font-size: 1.6rem;
 		}
 	}
 	.menu a {

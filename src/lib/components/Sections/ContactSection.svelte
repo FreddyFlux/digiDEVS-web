@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { Button, SectionHeadline } from '$components';
+	import { onMount } from 'svelte';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 	interface ContactSectionProps {
 		data: {
@@ -29,6 +32,14 @@
 	let isEmailSent = $state(false);
 	let showErrorMessage = $state(false);
 	let isLoading = $state(false);
+
+	let sectionEl: HTMLElement;
+	let headlineEl: HTMLElement;
+	let titleEl: HTMLElement;
+	let textEls: HTMLElement[] = [];
+	let inputEls: HTMLElement[] = [];
+	let textareaEl: HTMLElement;
+	let buttonEl: HTMLElement;
 
 	async function onSubmit(event: Event) {
 		event.preventDefault();
@@ -70,10 +81,98 @@
 			isFormInvalid = false;
 		}
 	});
+
+	onMount(() => {
+		// Register ScrollTrigger plugin
+		gsap.registerPlugin(ScrollTrigger);
+
+		// Set initial state (hidden)
+		gsap.set([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl], {
+			opacity: 0,
+			y: 20
+		});
+
+		// Create two different timelines for scrolling down and scrolling up
+		let lastScrollDirection = 0; // 1 for down, -1 for up
+		let animationActive = false;
+
+		// Initialize scroll trigger
+		const scrollTrigger = ScrollTrigger.create({
+			trigger: sectionEl,
+			start: 'top 80%',
+			end: 'center 20%',
+			onEnter: (self) => {
+				lastScrollDirection = 1; // scrolling down
+				playAnimation(true);
+			},
+			onLeave: (self) => {
+				hideAllElements();
+			},
+			onEnterBack: (self) => {
+				lastScrollDirection = -1; // scrolling up
+				playAnimation(false);
+			},
+			onLeaveBack: (self) => {
+				hideAllElements();
+			}
+			// markers: true, // For debugging
+		});
+
+		function hideAllElements() {
+			gsap.to([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl], {
+				opacity: 0,
+				y: 20,
+				duration: 0.3,
+				stagger: 0.05,
+				overwrite: true
+			});
+		}
+
+		function playAnimation(scrollingDown: boolean) {
+			// Kill any ongoing animations
+			gsap.killTweensOf([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl]);
+
+			// Get elements in the correct order based on scroll direction
+			let elements;
+			if (scrollingDown) {
+				// Down order: headline → title → text → inputs → textarea → button
+				elements = [headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl];
+			} else {
+				// Up order: button → textarea → inputs → text → title → headline
+				elements = [
+					buttonEl,
+					textareaEl,
+					...inputEls.slice().reverse(),
+					...textEls.slice().reverse(),
+					titleEl,
+					headlineEl
+				];
+			}
+
+			// Animate elements in sequence
+			gsap.to(elements, {
+				opacity: 1,
+				y: 0,
+				duration: 0.4,
+				stagger: 0.1,
+				ease: 'power2.out',
+				overwrite: true
+			});
+		}
+
+		return () => {
+			// Clean up ScrollTrigger
+			if (scrollTrigger) {
+				scrollTrigger.kill();
+			}
+		};
+	});
 </script>
 
-<section class="mt-l" id="contact">
-	<SectionHeadline sectionName="contact-form">{contactHeadline}</SectionHeadline>
+<section class="mt-l" id="contact" bind:this={sectionEl}>
+	<div bind:this={headlineEl}>
+		<SectionHeadline sectionName="contact-form">{contactHeadline}</SectionHeadline>
+	</div>
 	<div class="form-container default-margin mt-m">
 		{#if isEmailSent}
 			<div class="spinner-container">
@@ -90,9 +189,9 @@
 			</h3>
 		{:else}
 			<div class="form-text mb-m">
-				<h3 class="bold mb-s">{contactTitle}</h3>
-				{#each contactText as text}
-					<p>{text}</p>
+				<h3 class="bold mb-s" bind:this={titleEl}>{contactTitle}</h3>
+				{#each contactText as text, i}
+					<p bind:this={textEls[i]}>{text}</p>
 				{/each}
 			</div>
 
@@ -103,6 +202,7 @@
 					class:input-error={isFormInvalid && !Boolean(contactName.length)}
 					placeholder={namePlaceholder}
 					bind:value={contactName}
+					bind:this={inputEls[0]}
 				/>
 				<input
 					type="text"
@@ -110,13 +210,17 @@
 					class:input-error={isFormInvalid && !Boolean(contactMail.length)}
 					placeholder={emailPlaceholder}
 					bind:value={contactMail}
+					bind:this={inputEls[1]}
 				/>
 				<textarea
 					placeholder={messagePlaceholder}
 					class:input-error={isFormInvalid && !Boolean(informationAboutProject.length)}
 					bind:value={informationAboutProject}
+					bind:this={textareaEl}
 				></textarea>
-				<Button onclick={onSubmit}>{contactLinkText}</Button>
+				<div bind:this={buttonEl}>
+					<Button onclick={onSubmit}>{contactLinkText}</Button>
+				</div>
 			</form>
 		{/if}
 	</div>

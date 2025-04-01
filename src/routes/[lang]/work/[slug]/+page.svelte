@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { Button, Navbar } from '$components';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import gsap from 'gsap';
 
 	interface Props {
 		data: {
@@ -22,23 +24,88 @@
 			return style;
 		}
 	}
+
+	// References to elements we want to animate
+	let companyEl: HTMLElement;
+	let nameEl: HTMLElement;
+	let projectImageEl: HTMLImageElement;
+	let dateHeadingEl: HTMLHeadingElement;
+	let dateValueEl: HTMLParagraphElement;
+	let techStackHeadingEl: HTMLHeadingElement;
+	let skillsListEl: HTMLUListElement;
+	let contentBlocksEl: HTMLElement[] = [];
+
+	onMount(() => {
+		// Initially hide all elements
+		gsap.set(
+			[
+				companyEl,
+				nameEl,
+				projectImageEl,
+				dateHeadingEl,
+				dateValueEl,
+				techStackHeadingEl,
+				skillsListEl.querySelectorAll('li')
+			],
+			{ autoAlpha: 0, y: 20 }
+		);
+
+		// Hide content blocks
+		gsap.set(contentBlocksEl, { autoAlpha: 0, y: 20 });
+
+		// Create timeline for sequential animations
+		const tl = gsap.timeline({ defaults: { duration: 0.7, ease: 'power3.out' } });
+
+		// Add animations in sequence
+		tl.to(companyEl, { autoAlpha: 1, y: 0 })
+			.to(nameEl, { autoAlpha: 1, y: 0 }, '-=0.6')
+			.to(projectImageEl, { autoAlpha: 1, y: 0 }, '-=0.5')
+			// Start date and content animations sooner with overlap
+			.to(dateHeadingEl, { autoAlpha: 1, y: 0 }, '-=0.3') // Overlap with project image
+			.to(dateValueEl, { autoAlpha: 1, y: 0 }, '-=0.4')
+			// Animate content blocks with overlap
+			.to(
+				contentBlocksEl,
+				{
+					autoAlpha: 1,
+					y: 0,
+					stagger: 0.2
+				},
+				'-=0.6' // Start content blocks earlier, overlapping with date heading
+			)
+			.to(techStackHeadingEl, { autoAlpha: 1, y: 0 }, '-=2') // Changed from +=0.4 to -=0.1 to start sooner
+			.to(
+				skillsListEl.querySelectorAll('li'),
+				{
+					autoAlpha: 1,
+					y: 0,
+					stagger: 0.1 // Stagger the animations for each list item
+				},
+				'-=1.8'
+			);
+	});
 </script>
 
 <Navbar {data} {lang} />
 <main class="default-margin work-page">
-	<h4 class="mt-m">{company}</h4>
+	<h4 class="mt-m" bind:this={companyEl}>{company}</h4>
 	<div class="underscore mb-s"></div>
-	<h2 class="mb-s">{name}</h2>
-	<img src={projectImageUrl} alt={`Picture of work done for ${company}`} class="project-image" />
+	<h2 class="mb-s" bind:this={nameEl}>{name}</h2>
+	<img
+		bind:this={projectImageEl}
+		src={projectImageUrl}
+		alt={`Picture of work done for ${company}`}
+		class="project-image"
+	/>
 	<div class="project-container mt-m">
 		<div class="meta-data mt-m">
 			<div class="meta-data-date">
-				<h3 class="semi-bold">Date</h3>
-				<p>{dateAccomplished.slice(0, 7)}</p>
+				<h3 class="semi-bold" bind:this={dateHeadingEl}>Date</h3>
+				<p bind:this={dateValueEl}>{dateAccomplished.slice(0, 7)}</p>
 			</div>
 			<div class="meta-data-tech-stack">
-				<h4 class="semi-bold">Tech Stack</h4>
-				<ul>
+				<h4 class="semi-bold" bind:this={techStackHeadingEl}>Tech Stack</h4>
+				<ul bind:this={skillsListEl}>
 					{#each stack as skill}
 						<li>{skill}</li>
 					{/each}
@@ -46,11 +113,13 @@
 			</div>
 		</div>
 		<div class="project-text mt-m">
-			{#each content as block}
+			{#each content as block, i}
 				{#if block.type === 'text'}
-					<svelte:element this={getTagFromStyle(block.style)}>{block.textToRender}</svelte:element>
+					<svelte:element this={getTagFromStyle(block.style)} bind:this={contentBlocksEl[i]}
+						>{block.textToRender}</svelte:element
+					>
 				{:else}
-					<img class="content-image" src={block.url} alt="" />
+					<img class="content-image" src={block.url} alt="" bind:this={contentBlocksEl[i]} />
 				{/if}
 			{/each}
 			<Button

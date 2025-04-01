@@ -87,9 +87,16 @@
 		gsap.registerPlugin(ScrollTrigger);
 
 		// Set initial state (hidden)
-		gsap.set([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl], {
+		// Headline and title still come from bottom
+		gsap.set([headlineEl, titleEl, ...textEls], {
 			opacity: 0,
 			y: 20
+		});
+
+		// Form elements come from right with different initial positions
+		gsap.set([...inputEls, textareaEl, buttonEl], {
+			opacity: 0,
+			x: 100 // Start from right side
 		});
 
 		// Create two different timelines for scrolling down and scrolling up
@@ -119,9 +126,19 @@
 		});
 
 		function hideAllElements() {
-			gsap.to([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl], {
+			// Hide content elements
+			gsap.to([headlineEl, titleEl, ...textEls], {
 				opacity: 0,
 				y: 20,
+				duration: 0.3,
+				stagger: 0.05,
+				overwrite: true
+			});
+
+			// Hide form elements
+			gsap.to([...inputEls, textareaEl, buttonEl], {
+				opacity: 0,
+				x: 100,
 				duration: 0.3,
 				stagger: 0.05,
 				overwrite: true
@@ -132,30 +149,43 @@
 			// Kill any ongoing animations
 			gsap.killTweensOf([headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl]);
 
-			// Get elements in the correct order based on scroll direction
-			let elements;
+			// Get content elements in the correct order based on scroll direction
+			let contentElements;
 			if (scrollingDown) {
-				// Down order: headline → title → text → inputs → textarea → button
-				elements = [headlineEl, titleEl, ...textEls, ...inputEls, textareaEl, buttonEl];
+				// Down order: headline → title → text
+				contentElements = [headlineEl, titleEl, ...textEls];
 			} else {
-				// Up order: button → textarea → inputs → text → title → headline
-				elements = [
-					buttonEl,
-					textareaEl,
-					...inputEls.slice().reverse(),
-					...textEls.slice().reverse(),
-					titleEl,
-					headlineEl
-				];
+				// Up order: text → title → headline
+				contentElements = [...textEls.slice().reverse(), titleEl, headlineEl];
 			}
 
-			// Animate elements in sequence
-			gsap.to(elements, {
+			// Get form elements in the correct order based on scroll direction
+			let formElements;
+			if (scrollingDown) {
+				// Down order: inputs → textarea → button
+				formElements = [...inputEls, textareaEl, buttonEl];
+			} else {
+				// Up order: button → textarea → inputs
+				formElements = [buttonEl, textareaEl, ...inputEls.slice().reverse()];
+			}
+
+			// Animate content elements with vertical movement
+			gsap.to(contentElements, {
 				opacity: 1,
 				y: 0,
 				duration: 0.4,
 				stagger: 0.1,
 				ease: 'power2.out',
+				overwrite: true
+			});
+
+			// Animate form elements with horizontal movement and bounce
+			gsap.to(formElements, {
+				opacity: 1,
+				x: 0,
+				duration: 0.6,
+				stagger: 0.15,
+				ease: 'elastic.out(1.2, 0.4)', // Exaggerated bounce effect
 				overwrite: true
 			});
 		}

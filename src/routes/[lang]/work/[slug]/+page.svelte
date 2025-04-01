@@ -34,6 +34,14 @@
 	let contentBlocksEl: HTMLElement[] = [];
 
 	onMount(() => {
+		// First, ensure we clean up all existing ScrollTrigger instances
+		// This prevents GSAP warnings about missing targets from other pages
+		import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+			// Kill all existing ScrollTrigger instances
+			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+			gsap.registerPlugin(ScrollTrigger);
+		});
+
 		// Initially hide all elements
 		gsap.set(
 			[

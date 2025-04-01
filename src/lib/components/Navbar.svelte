@@ -47,6 +47,9 @@
 		// Clear any existing inactivity timer
 		if (inactivityTimer) window.clearTimeout(inactivityTimer);
 
+		// Add a null check to prevent "GSAP target null not found" errors
+		if (!nav) return;
+
 		if (show) {
 			// Show navbar with GSAP
 			gsap.to(nav, {
@@ -85,11 +88,13 @@
 		const pathParts = window.location.pathname.split('/').filter(Boolean);
 		currentLang = pathParts[0];
 
-		// Initial setup for the navbar
-		gsap.set(nav, {
-			y: 0,
-			opacity: 1
-		});
+		// Initial setup for the navbar - add null check here too
+		if (nav) {
+			gsap.set(nav, {
+				y: 0,
+				opacity: 1
+			});
+		}
 
 		const handleScroll = () => {
 			const currentScrollY = window.pageYOffset;
@@ -133,6 +138,11 @@
 			if (scrollTimer) window.clearTimeout(scrollTimer);
 			if (inactivityTimer) window.clearTimeout(inactivityTimer);
 			window.removeEventListener('scroll', handleScroll);
+
+			// Clean up any active GSAP animations on the navbar element
+			if (nav) {
+				gsap.killTweensOf(nav);
+			}
 		};
 	});
 </script>

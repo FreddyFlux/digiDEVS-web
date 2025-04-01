@@ -61,7 +61,7 @@
 <div class="cycling-text-container">
 	<h1 class="cycling-text text-container">
 		<span class="static-text">{staticText}</span>
-		<span class="dynamic-text">`{currentText}`</span>
+		<span class="dynamic-text">{currentText}</span>
 	</h1>
 </div>
 
@@ -70,6 +70,7 @@
 		font-family: 'Prelude-Regular', sans-serif;
 		font-size: 6rem;
 		letter-spacing: 2px;
+		line-height: 1.2;
 	}
 
 	@media screen and (max-width: 37.5em) {
@@ -114,16 +115,21 @@
 			text-align: left;
 			display: block;
 			position: relative;
+			line-height: 1.2;
+			min-height: 1.2em;
 		}
 
 		.static-text {
-			margin-bottom: 0.5rem;
+			margin-bottom: 1.5rem;
 		}
 
 		.dynamic-text {
 			margin-left: 0;
-			margin-top: 0.8rem;
+			margin-top: 1.5rem;
+			margin-bottom: 1rem;
 			min-width: unset;
+			height: auto;
+			overflow: visible;
 		}
 
 		.dynamic-text::before {
@@ -133,12 +139,19 @@
 		}
 	}
 
+	.cycling-text-container {
+		width: 100%;
+		padding: 1rem 0;
+		min-height: 20rem;
+	}
+
 	.cycling-text {
 		display: flex;
-		align-items: flex-end;
+		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
 		text-align: center;
+		min-height: 15rem;
 	}
 
 	.static-text {
@@ -154,8 +167,10 @@
 		position: relative;
 		text-align: left;
 		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		overflow: visible;
+		text-overflow: unset;
+		line-height: 1.2;
+		min-height: 1.2em;
 	}
 
 	@media screen and (max-width: 25em) {
